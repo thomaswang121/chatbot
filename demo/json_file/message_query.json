@@ -1,0 +1,64 @@
+{
+    "type": "carousel",
+    "contents": [
+      {
+        "type": "bubble",
+        "header": {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [
+            {
+              "type": "text",
+              "text": "理財chatbot",
+              "size": "xxl"
+            }
+          ],
+          "background": {
+            "type": "linearGradient",
+            "angle": "0deg",
+            "startColor": "#FAFAFA",
+            "endColor": "#FFFF8C"
+          }
+        },
+        "hero": {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [
+            {
+              "type": "text",
+              "text": "日期",
+              "align": "center",
+              "size": "lg",
+              "margin": "xl"
+            }
+          ]
+        },
+        "body": {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [
+            {
+              "type": "text",
+              "margin": "15px",
+              "text": "現金買入"
+            },
+            {
+              "type": "text",
+              "text": "現金賣出",
+              "margin": "15px"
+            },
+            {
+              "type": "text",
+              "text": "即期買入",
+              "margin": "15px"
+            },
+            {
+              "type": "text",
+              "text": "即期賣出",
+              "margin": "15px"
+            }
+          ]
+        }
+      }
+    ]
+  }

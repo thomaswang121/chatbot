@@ -1,0 +1,72 @@
+{
+    "type": "carousel",
+    "contents": [
+      {
+        "type": "bubble",
+        "header": {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [
+            {
+              "type": "text",
+              "text": "理財chatbot",
+              "size": "xxl"
+            }
+          ],
+          "background": {
+            "type": "linearGradient",
+            "angle": "0deg",
+            "startColor": "#FAFAFA",
+            "endColor": "#FFFF8C"
+          }
+        },
+        "body": {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [
+            {
+              "type": "text",
+              "text": "- 請選擇服務 -",
+              "size": "xl"
+            },
+            {
+              "type": "text",
+              "text": "這個聊天機器人提供讓你查詢匯率",
+              "margin": "15px"
+            },
+            {
+              "type": "text",
+              "text": "以及提供追蹤外幣匯率的服務！"
+            },
+            {
+              "type": "text",
+              "text": "tips: 如果要重新設定請輸入「R」",
+              "margin": "10px"
+            }
+          ]
+        },
+        "footer": {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [
+            {
+              "type": "button",
+              "action": {
+                "type": "message",
+                "label": "查詢匯率",
+                "text": "查詢匯率"
+              }
+            },
+            {
+              "type": "button",
+              "action": {
+                "type": "message",
+                "label": "匯率推播",
+                "text": "匯率推播"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }

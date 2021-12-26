@@ -28,7 +28,7 @@ error=${?}
 echo "scraper to db:"${error} > time.log
 while [ "$error" -ne "0" ]
 do
-    sleep 10
+    sleep 30
     python3 ~/Desktop/chatbot/demo/scraper.py
     error=${?}
     echo "scraper to db:"${error} > time.log

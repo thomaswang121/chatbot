@@ -1,5 +1,5 @@
 *.db
-*.json
+/demo/json_file/passwd.json
 /env
 __pycache__
 /demo/asyncio

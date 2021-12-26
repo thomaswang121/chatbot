@@ -9,12 +9,22 @@ import json
 from linebot import LineBotApi
 from linebot.models import TextSendMessage
 
-db_conn = sqlite3.connect(pathlib.Path().cwd() / "chatbot.db")
+# route initialize
+root = pathlib.Path().cwd()
+passwd = root / "json_file" / "passwd.json"
+message = root / "json_file" / "message.json"
+
+# connect with chatbot.db
+db_conn = sqlite3.connect(root / "chatbot.db")
 db_cursor = db_conn.cursor()
+
+# wibsite url (18)
 base_url = "https://rate.bot.com.tw/xrt/quote/day/"
 currency_list = ["USD", "HKD", "GBP", "AUD", "SGD", "CHF", "JPY", "ZAR", "SEK","NZD", "THB", "PHP", "IDR", "EUR", "KRW", "VND", "MYR", "CNY"]
 loop = asyncio.get_event_loop()
-with open ("passwd.json", 'r') as f:
+
+# linebotsdk token auth
+with open (passwd, 'r') as f:
     token = json.load(f)
 line_bot_api = LineBotApi(token['channel_access_token'])
 
@@ -157,11 +167,21 @@ def run():
     global currency_list, start_at
     localtime = time.strftime('%H:%M', time.localtime())
 
-    # Empty list or exceed trading time
-    if currency_list == [] or localtime == "02:03":
+    # Empty list rest
+    if currency_list == []:
         loop.close()
         db_conn.close()
-        exit()
+        exit(1)
+    
+    # exceed trading time
+    elif localtime == "02:03":
+        loop.close()
+        db_conn.close()
+        exit(0)
+    
+    else:
+        pass
+    
     loop.run_until_complete(main(loop))
     print("Async total time: ", time.time() - start_at)
     if (time.time() - start_at) > 60:

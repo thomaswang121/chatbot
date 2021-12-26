@@ -1,0 +1,84 @@
+{
+    "type": "carousel",
+    "contents": [
+      {
+        "type": "bubble",
+        "header": {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [
+            {
+              "type": "text",
+              "text": "理財chatbot",
+              "size": "xxl"
+            }
+          ],
+          "background": {
+            "type": "linearGradient",
+            "angle": "0deg",
+            "startColor": "#FAFAFA",
+            "endColor": "#FFFF8C"
+          }
+        },
+        "body": {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [
+            {
+              "type": "text",
+              "text": "- 推播服務 -",
+              "size": "xl"
+            },
+            {
+              "type": "text",
+              "text": "請選擇追蹤匯率種類",
+              "margin": "10px"
+            },
+            {
+              "type": "text",
+              "text": "tips: 如果要重新設定請輸入「R」",
+              "margin": "10px"
+            }
+          ]
+        },
+        "footer": {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [
+            {
+              "type": "button",
+              "action": {
+                "type": "message",
+                "label": "即期買入",
+                "text": "即期買入"
+              }
+            },
+            {
+              "type": "button",
+              "action": {
+                "type": "message",
+                "label": "即期賣出",
+                "text": "即期賣出"
+              }
+            },
+            {
+              "type": "button",
+              "action": {
+                "type": "message",
+                "label": "現金買入",
+                "text": "現金買入"
+              }
+            },
+            {
+              "type": "button",
+              "action": {
+                "type": "message",
+                "label": "現金賣出",
+                "text": "現金賣出"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }

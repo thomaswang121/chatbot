@@ -1,0 +1,67 @@
+{
+    "type": "carousel",
+    "contents": [
+      {
+        "type": "bubble",
+        "header": {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [
+            {
+              "type": "text",
+              "text": "理財chatbot",
+              "size": "xxl"
+            }
+          ],
+          "background": {
+            "type": "linearGradient",
+            "angle": "0deg",
+            "startColor": "#FAFAFA",
+            "endColor": "#FFFF8C"
+          }
+        },
+        "body": {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [
+            {
+              "type": "text",
+              "text": "- 推播服務 -",
+              "size": "xl"
+            },
+            {
+              "type": "text",
+              "text": "請設定門檻值",
+              "margin": "10px"
+            },
+            {
+              "type": "text",
+              "text": "ex : 27.3",
+              "margin": "10px"
+            },
+            {
+              "type": "text",
+              "text": "門檻值說明：",
+              "align": "center",
+              "margin": "10px"
+            },
+            {
+              "type": "text",
+              "text": "設定買入在高於門檻值時提醒您！",
+              "align": "center"
+            },
+            {
+              "type": "text",
+              "text": "設定賣出在高於門檻值時提醒您！",
+              "align": "center"
+            },
+            {
+              "type": "text",
+              "text": "tips: 如果要重新設定請輸入「R」",
+              "margin": "10px"
+            }
+          ]
+        }
+      }
+    ]
+  }

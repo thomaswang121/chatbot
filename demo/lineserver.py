@@ -7,21 +7,43 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage,
+    MessageEvent, TextMessage, TextSendMessage,FlexSendMessage
 )
+from linebot.models.flex_message import (
+    BubbleContainer, ImageComponent
+)
+from linebot.models.actions import URIAction
 import sqlite3
 import pathlib
 import pandas as pd
+
+# 輸入幣種
+# with open(message_currency, 'r', encoding='utf-8') as f:
+#     FlexMessage = json.load(f)
+# line_bot_api.reply_message(event.reply_token, FlexSendMessage('profile',FlexMessage))
+
+# route initialize
+root = pathlib.Path().cwd()
+passwd = root / "json_file" / "passwd.json"
+message_currency = root / "json_file" / "message_currency.json"
+message_track = root / "json_file" / "message_track.json"
+message_function = root / "json_file" / "message_function.json"
+message_setting_value = root / "json_file" / "message_setting_value.json"
+message_query = root / "json_file" / "message_query.json"
+
+
 app = Flask(__name__)
-db_conn=sqlite3.connect(pathlib.Path().cwd()/"user.db")
-db_cursor=db_conn.cursor()
-with open ("passwd.json", 'r') as f:
+
+# webhook
+with open (passwd, 'r') as f:
     token = json.load(f)
 line_bot_api = LineBotApi(token['channel_access_token'])
 handler = WebhookHandler(token['channel_secret'])
 
-db_conn=sqlite3.connect(pathlib.Path().cwd() / "chatbot.db",check_same_thread=False)
+# connect with chatbot.db
+db_conn=sqlite3.connect(root / "chatbot.db", check_same_thread=False)
 db_cursor = db_conn.cursor()
+
 currency = {
     "美金":"USD",
     "港幣":"HKD",
@@ -67,7 +89,6 @@ def callback():
 # check user text
 def is_number(str):
   try:
-    # 因為使用float有一個例外是'NaN'
     if str=='NaN':
       return False
     float(str)
@@ -75,11 +96,12 @@ def is_number(str):
   except ValueError:
     return False
 
-# reset user status
-def reset_status(user_id):
-    sql = f"""UPDATE users SET user_status=null WHERE user='%s'"""%(user_id)
-    db_cursor.execute(sql)
-    db_conn.commit()
+
+# parse json file
+def parse_json(data_route):
+    with open(data_route, 'r', encoding='utf-8')as f:
+        data = json.load(f)
+    return data
 
 # get user id 
 def create_new_user(user_id):
@@ -109,12 +131,29 @@ def handle_message(event):
     create_result = create_new_user(user_id)
     db_uid = create_result[0]
 
+    # List of function
+    if user_text == "外幣服務":
+        FlexMessage = parse_json(message_function)
+        line_bot_api.reply_message(event.reply_token, FlexSendMessage('profile',FlexMessage))
+
     # reset status
     if not create_result[1]:
         if user_text == "R":
-            reset_status(user_id)
-            line_bot_api.reply_message(event.reply_token,TextSendMessage(f"已清除設定，請輸入幣種，例如:美金"))
+            # reset user status
+            sql = f"""UPDATE users SET user_status=null WHERE user='%s'"""%(user_id)
+            db_cursor.execute(sql)
+            db_conn.commit()
+
+            # delete user config
+            sql = f"""DELETE FROM user_configs WHERE user_id='%s'"""%(db_uid)
+            db_cursor.execute(sql)
+            db_conn.commit()
+
+            # reply message
+            FlexMessage = parse_json(message_function)
+            line_bot_api.reply_message(event.reply_token, FlexSendMessage('profile',FlexMessage))
             return
+
 
     # select user status
     sql = f"""
@@ -123,6 +162,14 @@ def handle_message(event):
     """%(user_id)
     db_cursor.execute(sql)
     user_status = db_cursor.fetchall()
+
+
+    if user_text == "查詢匯率":
+        sql = f"""UPDATE users SET user_status='Q' WHERE user='%s'"""%(user_id)
+        db_cursor.execute(sql)
+        db_conn.commit()
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(f"請依照下列格式輸入「美金-2021/12/24」"))
+        return
 
 
     if user_status[0][0] is None:
@@ -135,38 +182,76 @@ def handle_message(event):
             db_cursor.execute(sql)
             db_cid = db_cursor.fetchall()[0][0]
 
-            # New user
-            if create_result[1]:
-                sql = f"""INSERT INTO user_configs(foreign_currency_id, user_id) VALUES('%s', '%s')"""%(db_cid, db_uid)
-                db_cursor.execute(sql)
-                db_conn.commit()
+            # setting user config
+            sql = f"""INSERT INTO user_configs(foreign_currency_id, user_id) VALUES('%s', '%s')"""%(db_cid, db_uid)
+            db_cursor.execute(sql)
+            db_conn.commit()
 
-            # Old user
-            else:
-                sql = f"""UPDATE user_configs SET foreign_currency_id='%s' WHERE user_id='%s'"""%(db_cid, db_uid)
-                db_cursor.execute(sql)
-                db_conn.commit()
-                
-            line_bot_api.reply_message(event.reply_token,TextSendMessage(f"請輸入欲追蹤種類，例如:現金買入、即期賣出"))
+
+            FlexMessage = parse_json(message_track)
+            line_bot_api.reply_message(event.reply_token, FlexSendMessage('profile',FlexMessage))
+            # line_bot_api.reply_message(event.reply_token,TextSendMessage(f"請輸入欲追蹤種類，例如:現金買入、即期賣出"))
 
             # Update user status C (choose)
             sql = f"""UPDATE users SET user_status='C' WHERE user='%s'"""%(user_id)
             db_cursor.execute(sql)
             db_conn.commit()
 
-        # Update user status Q (query)
-        elif user_text == "查詢":
-            sql = f"""UPDATE users SET user_status='Q' WHERE user='%s'"""%(user_id)
+
+        # Update user status P (puah)
+        elif user_text == "匯率推播":
+            # reset user status
+            sql = f"""UPDATE users SET user_status=null WHERE user='%s'"""%(user_id)
+            db_cursor.execute(sql)
+
+            # delete user config
+            sql = f"""DELETE FROM user_configs WHERE user_id='%s'"""%(db_uid)
             db_cursor.execute(sql)
             db_conn.commit()
-            line_bot_api.reply_message(event.reply_token,TextSendMessage(f"請依照下列格式輸入您想查詢內容"))
+            FlexMessage = parse_json(message_currency)
+            line_bot_api.reply_message(event.reply_token, FlexSendMessage('profile',FlexMessage))
 
         # user input not in default list
         else:
             input_list = [ele for ele in currency.items()]
-            print(input_list)
-            line_bot_api.reply_message(event.reply_token,TextSendMessage(f"請輸入正確幣種，例如:美金"))
+            line_bot_api.reply_message(event.reply_token,TextSendMessage(f"抱歉！輸入格式有誤"))
     
+    elif user_status[0][0] == "Q":
+        # get trade day id
+        trade_day = user_text.split('-')[1]
+        sql = f"""SELECT id FROM trade_days WHERE trade_day='%s'"""%(trade_day)
+        db_cursor.execute(sql)
+        db_tid = db_cursor.fetchall()[0][0]
+
+        # get currency id
+        sql = f"""SELECT id FROM foreign_currencies
+                WHERE foreign_currency='%s'"""%(currency[user_text.split('-')[0]])
+        db_cursor.execute(sql)
+        db_cid = db_cursor.fetchall()[0][0]
+        
+        # retrieve
+        sql = f"""SELECT cash_buy,cash_sell,spot_buy,spot_sell
+                FROM exchanges 
+                WHERE foreign_currency_id='%s' 
+                AND trade_day_id='%s'"""%(db_cid, db_tid)
+        db_cursor.execute(sql)
+        db_row = db_cursor.fetchall()[0]
+
+        # reply to user
+        FlexMessage = parse_json(message_query)
+        FlexMessage['contents'][0]['body']['contents'][0]['text'] = f"現金買入:{db_row[0]}"
+        FlexMessage['contents'][0]['body']['contents'][1]['text'] = f"現金買入:{db_row[1]}"
+        FlexMessage['contents'][0]['body']['contents'][2]['text'] = f"現金買入:{db_row[2]}"
+        FlexMessage['contents'][0]['body']['contents'][3]['text'] = f"現金買入:{db_row[3]}"
+        FlexMessage['contents'][0]['hero']['contents'][0]['text'] = f"日期：{trade_day}"
+        line_bot_api.reply_message(event.reply_token, FlexSendMessage('profile',FlexMessage))
+        
+        # reset user status
+        sql = f"""UPDATE users SET user_status=null WHERE user='%s'"""%(user_id)
+        db_cursor.execute(sql)
+        db_conn.commit()
+
+
     elif user_status[0][0] == "C":
         if user_text in ["現金買入", "現金賣出", "即期買入", "即期賣出"]:
             
@@ -178,7 +263,9 @@ def handle_message(event):
             sql = f"""UPDATE users SET user_status='S' WHERE user='%s'"""%(user_id)
             db_cursor.execute(sql)
             db_conn.commit()
-            line_bot_api.reply_message(event.reply_token,TextSendMessage(f"請輸入門檻值"))
+            FlexMessage = parse_json(message_setting_value)
+            line_bot_api.reply_message(event.reply_token, FlexSendMessage('profile',FlexMessage))
+            # line_bot_api.reply_message(event.reply_token,TextSendMessage(f"請輸入門檻值"))
         else:
             line_bot_api.reply_message(event.reply_token,TextSendMessage(f"請輸入正確選項，例如:現金買入、現金賣出、即期買入、即期賣出"))
 
@@ -197,8 +284,8 @@ def handle_message(event):
             setting_value = option[option.code == setting_value].chn.values[0]
             line_bot_api.reply_message(event.reply_token,TextSendMessage(f"完成設定，{setting_value} {user_text}，若欲清除或重新設定請輸入「R」"))
             
-            # Update user status F (Finish)
-            sql = f"""UPDATE users SET user_status='F' WHERE user='%s'"""%(user_id)
+            # Update user status null
+            sql = f"""UPDATE users SET user_status=null WHERE user='%s'"""%(user_id)
             db_cursor.execute(sql)
             db_conn.commit()
         else:

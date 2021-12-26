@@ -1,0 +1,280 @@
+{
+    "type": "carousel",
+    "contents": [
+      {
+        "type": "bubble",
+        "header": {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [
+            {
+              "type": "text",
+              "text": "理財chatbot",
+              "size": "xxl"
+            }
+          ],
+          "background": {
+            "type": "linearGradient",
+            "angle": "0deg",
+            "startColor": "#FAFAFA",
+            "endColor": "#FFFF8C"
+          }
+        },
+        "body": {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [
+            {
+              "type": "text",
+              "text": "- 推播服務 -",
+              "size": "xl"
+            },
+            {
+              "type": "text",
+              "text": "請選擇要追蹤的幣種",
+              "margin": "10px"
+            },
+            {
+              "type": "text",
+              "text": "tips: 如果要重新設定請輸入「R」",
+              "margin": "10px"
+            }
+          ]
+        },
+        "footer": {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [
+            {
+              "type": "button",
+              "action": {
+                "type": "message",
+                "label": "美金",
+                "text": "美金"
+              }
+            },
+            {
+              "type": "button",
+              "action": {
+                "type": "message",
+                "label": "日圓",
+                "text": "日圓"
+              }
+            },
+            {
+              "type": "button",
+              "action": {
+                "type": "message",
+                "label": "港幣",
+                "text": "港幣"
+              }
+            },
+            {
+              "type": "button",
+              "action": {
+                "type": "message",
+                "label": "英鎊",
+                "text": "英鎊"
+              }
+            },
+            {
+              "type": "button",
+              "action": {
+                "type": "message",
+                "label": "澳幣",
+                "text": "澳幣"
+              }
+            },
+            {
+              "type": "button",
+              "action": {
+                "type": "message",
+                "label": "新加坡幣",
+                "text": "新加坡幣"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "bubble",
+        "header": {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [
+            {
+              "type": "text",
+              "text": "理財chatbot",
+              "size": "xxl"
+            }
+          ],
+          "background": {
+            "type": "linearGradient",
+            "angle": "0deg",
+            "startColor": "#FAFAFA",
+            "endColor": "#FFFF8C"
+          }
+        },
+        "body": {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [
+            {
+              "type": "text",
+              "text": "- 推播服務 -",
+              "size": "xl"
+            },
+            {
+              "type": "text",
+              "text": "請選擇要追蹤的幣種",
+              "margin": "10px"
+            }
+          ]
+        },
+        "footer": {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [
+            {
+              "type": "button",
+              "action": {
+                "type": "message",
+                "label": "瑞士法郎",
+                "text": "瑞士法郎"
+              }
+            },
+            {
+              "type": "button",
+              "action": {
+                "type": "message",
+                "label": "南非幣",
+                "text": "南非幣"
+              }
+            },
+            {
+              "type": "button",
+              "action": {
+                "type": "message",
+                "label": "瑞典幣",
+                "text": "瑞典幣"
+              }
+            },
+            {
+              "type": "button",
+              "action": {
+                "type": "message",
+                "label": "紐元",
+                "text": "紐元"
+              }
+            },
+            {
+              "type": "button",
+              "action": {
+                "type": "message",
+                "label": "泰幣",
+                "text": "泰幣"
+              }
+            },
+            {
+              "type": "button",
+              "action": {
+                "type": "message",
+                "label": "菲國比索",
+                "text": "菲國比索"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "bubble",
+        "header": {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [
+            {
+              "type": "text",
+              "text": "理財chatbot",
+              "size": "xxl"
+            }
+          ],
+          "background": {
+            "type": "linearGradient",
+            "angle": "0deg",
+            "startColor": "#FAFAFA",
+            "endColor": "#FFFF8C"
+          }
+        },
+        "body": {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [
+            {
+              "type": "text",
+              "text": "- 推播服務 -",
+              "size": "xl"
+            },
+            {
+              "type": "text",
+              "text": "請選擇要追蹤的幣種",
+              "margin": "10px"
+            }
+          ]
+        },
+        "footer": {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [
+            {
+              "type": "button",
+              "action": {
+                "type": "message",
+                "label": "印尼幣",
+                "text": "印尼幣"
+              }
+            },
+            {
+              "type": "button",
+              "action": {
+                "type": "message",
+                "label": "歐元",
+                "text": "歐元"
+              }
+            },
+            {
+              "type": "button",
+              "action": {
+                "type": "message",
+                "label": "韓元",
+                "text": "韓元"
+              }
+            },
+            {
+              "type": "button",
+              "action": {
+                "type": "message",
+                "label": "越南盾",
+                "text": "越南盾"
+              }
+            },
+            {
+              "type": "button",
+              "action": {
+                "type": "message",
+                "label": "馬來幣",
+                "text": "馬來幣"
+              }
+            },
+            {
+              "type": "button",
+              "action": {
+                "type": "message",
+                "label": "人民幣",
+                "text": "人民幣"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
