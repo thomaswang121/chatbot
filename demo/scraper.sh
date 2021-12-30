@@ -24,14 +24,16 @@ cd ~/Desktop/chatbot/
 source env/bin/activate
 cd ~/Desktop/chatbot/demo
 python3 ~/Desktop/chatbot/demo/scraper.py
+date -R >> time.log
 error=${?}
-echo "scraper to db:"${error} > time.log
+echo "scraper to db:"${error} >> time.log
 while [ "$error" -ne "0" ]
 do
     sleep 30
     python3 ~/Desktop/chatbot/demo/scraper.py
+    date -R >> time.log
     error=${?}
-    echo "scraper to db:"${error} > time.log
+    echo "scraper to db:"${error} >> time.log
 done
 
 # Remove lock file

@@ -198,7 +198,6 @@ def handle_message(event):
             db_conn.commit()
 
 
-        # Update user status P (puah)
         elif user_text == "匯率推播":
             # reset user status
             sql = f"""UPDATE users SET user_status=null WHERE user='%s'"""%(user_id)
